@@ -10,7 +10,7 @@ app.use(cookieParser());
 app.use(cors({ origin: ["http://localhost:5173"] }));
 
 // application routes
-app.use("/api", router);
+app.use("/api/v1", router);
 app.get("/", (req: Request, res: Response) => {
   res.send("Campers shop is running");
 });
