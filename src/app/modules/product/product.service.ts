@@ -1,4 +1,4 @@
-import { QueryBuilder } from "../../builder/QueryBuilder";
+import QueryBuilder from "../../builder/QueryBuilder";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
@@ -9,12 +9,13 @@ const createProduct = async (payload: TProduct) => {
 // get all Product from the database
 const getAllProducts = async (payload: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(Product.find({}), payload)
+  .search(["name", "description"])
     .filter()
-    .search(["name", "description"])
+    .sort()
     .paginate()
-    .sort();
 
   const result = await productQuery.modelQuery;
+ 
   return result;
 };
 
