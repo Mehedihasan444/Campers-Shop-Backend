@@ -6,5 +6,5 @@ const wishlistValidationSchema = z.object({
   }),
 });
 export const WishlistProductValidation = {
-    wishlistValidationSchema,
-  };
+  wishlistValidationSchema,
+};

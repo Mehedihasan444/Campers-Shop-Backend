@@ -1,3 +1,4 @@
+
 export type TProduct = {
   name: string;
   price: number;
@@ -6,16 +7,11 @@ export type TProduct = {
   category: string;
   image: string;
   rating: number;
-  id: string;
   inStock: boolean;
-  //   reviews: Array<{
-  //     reviewer: string;
-  //     rating: number;
-  //     comment: string;
-  //   }>;
   isFeatured: boolean;
   isBestseller: boolean;
-  // isNew: boolean;
+  brand: string;
+  reviews:number;
   isPopular: boolean;
   isSoldOut: boolean;
   isDiscounted: boolean;

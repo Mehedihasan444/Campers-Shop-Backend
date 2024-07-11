@@ -1,15 +1,15 @@
+import{ model, Schema } from "mongoose";
+import { TWishlist } from "./wishlist.interface";
 
-import mongoose, { Types } from'mongoose'
-
-const wishlistSchema = new mongoose.Schema({
-    product:{
-    type: Types.ObjectId,
+const wishlistSchema = new Schema<TWishlist>({
+  product: {
+    type: Schema.Types.ObjectId,
     required: true,
-    ref:'Product'
-},
+    ref: "Product",
+  },
+},{
+    timestamps: true,
+  
+});
 
-
-})
-
-
-export const Wishlist = mongoose.model('Wishlist', wishlistSchema);
+export const Wishlist = model<TWishlist>("Wishlist", wishlistSchema);

@@ -1,8 +1,9 @@
 
 
-import mongoose from'mongoose'
+import  { model, Schema } from'mongoose'
+import { TProduct } from './product.interface';
 
-const productSchema = new mongoose.Schema({
+const productSchema = new Schema<TProduct>({
   name: {
     type: String,
     required: true
@@ -33,11 +34,10 @@ const productSchema = new mongoose.Schema({
     min: 0,
     max: 5
   },
-//   id: {
-//     type: String,
-//     required: true,
-//     unique: true
-//   },
+  brand: {
+    type: String,
+    required: true,
+  },
   inStock: {
     type: Boolean,
     required: true,
@@ -48,16 +48,16 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: false
   },
+  reviews: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   isBestseller: {
     type: Boolean,
     required: true,
     default: false
   },
-  // isNew: {
-  //   type: Boolean,
-  //   required: true,
-  //   default: true
-  // },
   isPopular: {
     type: Boolean,
     required: true,
@@ -87,5 +87,5 @@ const productSchema = new mongoose.Schema({
   timestamps: true
 });
 
-export const Product = mongoose.model('Product', productSchema);
+export const Product = model<TProduct>('Product', productSchema);
 

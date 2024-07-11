@@ -16,4 +16,4 @@ router.delete("/:id",
     WishlistControllers.deleteWishlistProduct
 );
 
-export const ProductRoutes = router;
+export const WishlistRoutes = router;
