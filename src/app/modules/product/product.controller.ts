@@ -10,6 +10,7 @@ import catchAsync from "../../utils/catchAsync";
 const createProduct: RequestHandler=catchAsync( async(req,res)=>{
 
     const productData= req.body;
+
     const result = await ProductServices.createProduct(productData)
 
     sendResponse(res,{
