@@ -4,6 +4,8 @@ import express, { Request, Response, Application, NextFunction } from "express";
 import Stripe from "stripe";
 import router from "./app/routes";
 import config from "./app/config";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFound from "./app/middlewares/notFound";
 const stripe = new Stripe(config.stripe_secret_key as string, {
   apiVersion: "2024-06-20",
 });
@@ -22,14 +24,21 @@ app.use("/api/v1", router);
 app.post("/create-payment-intent", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { products } = req.body;
-  
+
+    // Validate products
     if (!products || !Array.isArray(products)) {
       return res.status(400).send({ error: "Invalid products data" });
     }
+
+    // Calculate the amount
     const amount = products.reduce((total, item) => total + item.price * item.quantity, 0);
+
+    // Validate amount
     if (isNaN(amount) || amount <= 0) {
       return res.status(400).send({ error: "Invalid amount calculated from products" });
     }
+
+    // Create PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // amount in cents
       currency: "usd",
@@ -37,6 +46,7 @@ app.post("/create-payment-intent", async (req: Request, res: Response, next: Nex
         enabled: true,
       },
     });
+
     res.send({
       clientSecret: paymentIntent.client_secret,
       stripePaymentId: paymentIntent.id, // Include the PaymentIntent ID in the response
@@ -49,8 +59,8 @@ app.post("/create-payment-intent", async (req: Request, res: Response, next: Nex
 app.get("/", (req: Request, res: Response) => {
   res.send("Campers shop is running");
 });
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
-//Not Found
-// app.use(notFound);
+// Not Found
+app.use(notFound);
 export default app;
