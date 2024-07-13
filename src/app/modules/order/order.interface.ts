@@ -9,7 +9,7 @@ export type TOrder={
             paymentMethod: 'stripe'|'cashOnDelivery'
 
         }
-        items: [Types.ObjectId],
+        items: [{id:Types.ObjectId,purchasedQuantity:number}],
         paymentDetails?: {
           stripePaymentId: string,
           status: string,

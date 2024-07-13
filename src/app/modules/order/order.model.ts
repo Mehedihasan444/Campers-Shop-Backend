@@ -14,7 +14,7 @@ const orderSchema = new Schema<OptionalTOrder>({
         address: { type: String, required: true },
         paymentMethod: { type: String, enum: ['stripe', 'cashOnDelivery'], required: true }
     },
-    items: [{ type: Schema.Types.ObjectId, ref: 'Product', required: true }],
+    items: [{id:{ type: Schema.Types.ObjectId, ref: 'Product', required: true },purchasedQuantity:{ type: Number, required: true}}],
     paymentDetails: {
         stripePaymentId: { type: String },
         status: { type: String },
