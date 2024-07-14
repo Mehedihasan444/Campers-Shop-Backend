@@ -27,7 +27,7 @@ const app = (0, express_1.default)();
 //parsers
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)({ origin: ["https://campers-shop-frontend.vercel.app"] }));
+app.use((0, cors_1.default)({ origin: ["http://localhost:5173", "https://campers-shop-frontend.vercel.app"] }));
 // application routes
 app.use("/api/v1", routes_1.default);
 // Create payment intent endpoint
