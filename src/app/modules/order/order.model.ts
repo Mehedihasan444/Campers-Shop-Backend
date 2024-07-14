@@ -27,4 +27,4 @@ const orderSchema = new Schema<OptionalTOrder>({
     timestamps: true 
 });
 
-export const Order = model<TOrder>('Order', orderSchema);
+export const Order = model<OptionalTOrder>('Order', orderSchema);

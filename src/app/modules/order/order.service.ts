@@ -1,7 +1,8 @@
 import { Product } from "../product/product.model";
+import { TOrder } from "./order.interface";
 import { Order } from "./order.model";
 
-const createOrder = async (payload:string) => {
+const createOrder = async (payload:TOrder) => {
   // Create the order and populate the product field
   // const result = await Order.create(payload);
   const result = (await Order.create(payload)).populate("items.id");

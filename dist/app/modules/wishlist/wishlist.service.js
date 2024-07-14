@@ -12,6 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WishlistServices = void 0;
 const wishlist_model_1 = require("./wishlist.model");
 const createWishlistProduct = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExist = yield wishlist_model_1.Wishlist.findOne({ product: payload.product });
+    if (isExist) {
+        return {
+            status: 200,
+            message: 'Product already exists in the wishlist',
+            data: isExist
+        };
+    }
     const result = (yield wishlist_model_1.Wishlist.create(payload)).populate("product");
     return result;
 });
