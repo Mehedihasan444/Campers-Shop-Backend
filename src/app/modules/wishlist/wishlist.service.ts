@@ -1,6 +1,14 @@
 import { Wishlist } from "./wishlist.model";
 
-const createWishlistProduct = async (payload:string) => {
+const createWishlistProduct = async (payload:{product:string}) => {
+  const isExist = await Wishlist.findOne({product:payload.product});
+  if (isExist) {
+    return {
+      status: 200,
+      message: 'Product already exists in the wishlist',
+      data: isExist
+    };
+  }
   const result = (await Wishlist.create(payload)).populate("product");
   return result;
 };
