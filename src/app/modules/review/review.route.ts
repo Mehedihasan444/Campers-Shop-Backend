@@ -9,7 +9,7 @@ router.post(
   validateRequest(ReviewValidation.reviewValidationSchema),
   ReviewControllers.createReview
 );
-router.get("/", ReviewControllers.getAllReviews);
+router.get("/:id", ReviewControllers.getAllReviews);
 router.get("/:id", ReviewControllers.getAReview);
 router.put(
   "/:id",

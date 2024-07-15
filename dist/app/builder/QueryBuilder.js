@@ -11,24 +11,36 @@ class QueryBuilder {
         if (searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchableFields.map((field) => ({
-                    [field]: { $regex: searchTerm, $options: 'i' },
+                    [field]: { $regex: searchTerm, $options: "i" },
                 })),
             });
         }
         return this;
     }
     filter() {
-        const queryObj = Object.assign({}, this.query); // copy
+        const queryObj = Object.assign({}, this.query);
         // Filtering
-        const excludeFields = ['searchTerm', 'sort', 'limit', 'page'];
+        const excludeFields = [
+            "searchTerm",
+            "sort",
+            "limit",
+            "page",
+        ];
         excludeFields.forEach((el) => delete queryObj[el]);
-        this.modelQuery = this.modelQuery.find(queryObj);
+        if (queryObj.minPrice && queryObj.maxPrice) {
+            this.modelQuery = this.modelQuery.find({
+                price: { $gte: queryObj.minPrice, $lte: queryObj.maxPrice },
+            });
+        }
+        else {
+            this.modelQuery = this.modelQuery.find(queryObj);
+        }
         return this;
     }
     sort() {
         var _a, _b;
         const sort = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort;
-        const sortDirection = ((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.sort) || 'asc';
+        const sortDirection = ((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.sort) || "asc";
         if (sort) {
             this.modelQuery = this.modelQuery.sort({ price: sortDirection });
         }

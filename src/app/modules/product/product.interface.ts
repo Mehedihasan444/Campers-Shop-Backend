@@ -5,7 +5,7 @@ export type TProduct = {
   quantity: number;
   description: string;
   category: string;
-  image: string;
+  image: string[];
   rating: number;
   inStock: boolean;
   isFeatured: boolean;

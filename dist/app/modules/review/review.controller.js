@@ -30,7 +30,7 @@ const createReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 }));
 //get all Reviews
 const getAllReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield review_service_1.ReviewServices.getAllReviews(req.query);
+    const result = yield review_service_1.ReviewServices.getAllReviews(req.params);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

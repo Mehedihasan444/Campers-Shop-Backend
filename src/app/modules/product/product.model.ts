@@ -25,7 +25,7 @@ const productSchema = new Schema<TProduct>({
     required: true
   },
   image: {
-    type: String,
+    type: [String],
     required: true
   },
   rating: {
