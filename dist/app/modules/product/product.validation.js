@@ -10,7 +10,7 @@ const productValidationSchema = zod_1.z.object({
         description: zod_1.z.string().min(1),
         category: zod_1.z.string().min(1),
         brand: zod_1.z.string().min(1),
-        image: zod_1.z.array(zod_1.z.string().url()),
+        image: zod_1.z.array(zod_1.z.string()),
         rating: zod_1.z.number().min(0).max(5),
     }),
 });
@@ -21,7 +21,7 @@ const updateProductValidationSchema = zod_1.z.object({
         quantity: zod_1.z.number().nonnegative().optional(),
         description: zod_1.z.string().min(1).optional(),
         category: zod_1.z.string().min(1).optional(),
-        image: zod_1.z.array(zod_1.z.string().url()).optional(),
+        image: zod_1.z.array(zod_1.z.string()).optional(),
         rating: zod_1.z.number().min(0).max(5).optional(),
         brand: zod_1.z.string().min(1).optional(),
     }),
