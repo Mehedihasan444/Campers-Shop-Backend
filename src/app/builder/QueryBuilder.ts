@@ -1,4 +1,4 @@
-import { FilterQuery, Query } from 'mongoose';
+import { FilterQuery, Query } from "mongoose";
 
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
@@ -16,8 +16,8 @@ class QueryBuilder<T> {
         $or: searchableFields.map(
           (field) =>
             ({
-              [field]: { $regex: searchTerm, $options: 'i' },
-            }) as FilterQuery<T>,
+              [field]: { $regex: searchTerm, $options: "i" },
+            } as FilterQuery<T>)
         ),
       });
     }
@@ -26,28 +26,36 @@ class QueryBuilder<T> {
   }
 
   filter() {
-    const queryObj = { ...this.query }; // copy
-
+    const queryObj = { ...this.query };
     // Filtering
-    const excludeFields = ['searchTerm', 'sort', 'limit', 'page'];
+    const excludeFields = [
+      "searchTerm",
+      "sort",
+      "limit",
+      "page",
+    ];
 
     excludeFields.forEach((el) => delete queryObj[el]);
-
-    this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+    if (queryObj.minPrice && queryObj.maxPrice) {
+      this.modelQuery = this.modelQuery.find({
+        price: { $gte: queryObj.minPrice, $lte: queryObj.maxPrice },
+      } );
+    } else {
+      this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+    }
 
     return this;
   }
   sort() {
     const sort = this?.query?.sort as string;
-    const sortDirection = (this?.query?.sort as 'asc' | 'desc') || 'asc';
-  
+    const sortDirection = (this?.query?.sort as "asc" | "desc") || "asc";
+
     if (sort) {
       this.modelQuery = this.modelQuery.sort({ price: sortDirection });
     }
-  
+
     return this;
   }
-  
 
   paginate() {
     const page = Number(this?.query?.page) || 1;

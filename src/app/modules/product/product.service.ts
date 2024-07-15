@@ -3,7 +3,6 @@ import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
 const createProduct = async (payload: TProduct) => {
-
   const result = await Product.create(payload);
   return result;
 };
@@ -16,7 +15,7 @@ const createProduct = async (payload: TProduct) => {
 //     .paginate()
 
 //   const result = await productQuery.modelQuery;
- 
+
 //   return result;
 // };
 const getAllProducts = async (payload: Record<string, unknown>) => {
@@ -44,7 +43,6 @@ const getAllProducts = async (payload: Record<string, unknown>) => {
     products: result,
   };
 };
-
 
 // get a single Product from the database
 const getAProduct = async (id: string) => {
