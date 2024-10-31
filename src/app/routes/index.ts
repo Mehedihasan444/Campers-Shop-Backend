@@ -3,6 +3,8 @@ import { ProductRoutes } from '../modules/product/product.route';
 import { WishlistRoutes } from '../modules/wishlist/wishlist.route';
 import { OrderRoutes } from '../modules/order/order.route';
 import { ReviewRoutes } from '../modules/review/review.route';
+import { AuthRoutes } from '../modules/auth/auth.route';
+import { UserRoutes } from '../modules/User/user.route';
 
 const router = Router();
 
@@ -22,6 +24,14 @@ const moduleRoutes = [
   {
     path: '/reviews',
     route: ReviewRoutes,
+  },
+  {
+    path: '/auth',
+    route: AuthRoutes,
+  },
+  {
+    path: '/users',
+    route: UserRoutes,
   },
  
 

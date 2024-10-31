@@ -24,25 +24,12 @@ class QueryBuilder<T> {
 
     return this;
   }
+  paginate() {
+    const page = Number(this?.query?.page) || 1;
+    const limit = Number(this?.query?.limit) || 10;
+    const skip = (page - 1) * limit;
 
-  filter() {
-    const queryObj = { ...this.query };
-    // Filtering
-    const excludeFields = [
-      "searchTerm",
-      "sort",
-      "limit",
-      "page",
-    ];
-
-    excludeFields.forEach((el) => delete queryObj[el]);
-    if (queryObj.minPrice && queryObj.maxPrice) {
-      this.modelQuery = this.modelQuery.find({
-        price: { $gte: queryObj.minPrice, $lte: queryObj.maxPrice },
-      } );
-    } else {
-      this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-    }
+    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
 
     return this;
   }
@@ -56,13 +43,30 @@ class QueryBuilder<T> {
 
     return this;
   }
+  fields() {
+    let fields = "";
 
-  paginate() {
-    const page = Number(this?.query?.page) || 1;
-    const limit = Number(this?.query?.limit) || 10;
-    const skip = (page - 1) * limit;
+    if (this.query?.fields) {
+      fields = (this.query?.fields as string).split(",").join(" ");
+    }
 
-    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+    this.modelQuery = this.modelQuery.select(fields);
+    return this;
+  }
+
+  filter() {
+    const queryObj = { ...this.query };
+    // Filtering
+    const excludeFields = ["searchTerm", "sort", "limit", "page"];
+
+    excludeFields.forEach((el) => delete queryObj[el]);
+    if (queryObj.minPrice && queryObj.maxPrice) {
+      this.modelQuery = this.modelQuery.find({
+        price: { $gte: queryObj.minPrice, $lte: queryObj.maxPrice },
+      });
+    } else {
+      this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+    }
 
     return this;
   }
