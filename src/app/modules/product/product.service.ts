@@ -1,4 +1,4 @@
-import QueryBuilder from "../../builder/QueryBuilder";
+import { QueryBuilder } from "../../builder/QueryBuilder";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
@@ -7,21 +7,10 @@ const createProduct = async (payload: TProduct) => {
   return result;
 };
 // get all Product from the database
-// const getAllProducts = async (payload: Record<string, unknown>) => {
-//   const productQuery = new QueryBuilder(Product.find({}), payload)
-//   .search(["name", "description"])
-//     .filter()
-//     .sort()
-//     .paginate()
-
-//   const result = await productQuery.modelQuery;
-
-//   return result;
-// };
 const getAllProducts = async (payload: Record<string, unknown>) => {
   // Create a new QueryBuilder instance for the product query
   const productQuery = new QueryBuilder(Product.find({}), payload)
-    .search(["name", "description"])
+    .search(["name", "description", "category"])
     .filter()
     .sort()
     .paginate();
@@ -31,7 +20,7 @@ const getAllProducts = async (payload: Record<string, unknown>) => {
 
   // Create a separate query to count the total number of products matching the filter criteria
   const countQuery = new QueryBuilder(Product.find({}), payload)
-    .search(["name", "description"])
+    .search(["name", "description", "category"])
     .filter();
 
   // Execute the count query to get the total count

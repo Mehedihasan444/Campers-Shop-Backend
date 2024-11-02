@@ -17,7 +17,7 @@ const registerUser = async (payload: TRegisterUser) => {
     throw new AppError(httpStatus.NOT_FOUND, "This user is already exist!");
   }
 
-  payload.role = USER_ROLE.USER;
+  payload.role = USER_ROLE.BUYER;
 
   //create new user
   const newUser = await User.create(payload);
@@ -98,7 +98,7 @@ const socialLoginUser = async (payload: {
     };
   }
 
-  payload.role = USER_ROLE.USER;
+  payload.role = USER_ROLE.BUYER;
 
   //create new user
   const newUser = await User.create(payload);

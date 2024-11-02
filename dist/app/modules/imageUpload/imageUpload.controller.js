@@ -12,25 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateRequestCookies = void 0;
-const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
-const validateRequest = (schema) => {
-    return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedBody = yield schema.parseAsync({
-            body: req.body,
-        });
-        req.body = parsedBody.body;
-        next();
-    }));
+exports.ImageUploadController = void 0;
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const http_status_1 = __importDefault(require("http-status"));
+const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const imageUpload_service_1 = require("./imageUpload.service");
+const uploadImage = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield imageUpload_service_1.ImageUploadServices.uploadImage(req.file);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Photo uploaded successfully',
+        data: result
+    });
+}));
+exports.ImageUploadController = {
+    uploadImage,
 };
-const validateRequestCookies = (schema) => {
-    return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedCookies = yield schema.parseAsync({
-            cookies: req.cookies,
-        });
-        req.cookies = parsedCookies.cookies;
-        next();
-    }));
-};
-exports.validateRequestCookies = validateRequestCookies;
-exports.default = validateRequest;

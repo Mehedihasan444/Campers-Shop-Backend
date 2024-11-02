@@ -12,25 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateRequestCookies = void 0;
+exports.parseBody = void 0;
+const AppError_1 = __importDefault(require("../errors/AppError"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
-const validateRequest = (schema) => {
-    return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedBody = yield schema.parseAsync({
-            body: req.body,
-        });
-        req.body = parsedBody.body;
-        next();
-    }));
-};
-const validateRequestCookies = (schema) => {
-    return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedCookies = yield schema.parseAsync({
-            cookies: req.cookies,
-        });
-        req.cookies = parsedCookies.cookies;
-        next();
-    }));
-};
-exports.validateRequestCookies = validateRequestCookies;
-exports.default = validateRequest;
+exports.parseBody = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.data) {
+        throw new AppError_1.default(400, 'Please provide data in the body under data key');
+    }
+    req.body = JSON.parse(req.body.data);
+    next();
+}));

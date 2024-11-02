@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import QueryBuilder from "../../builder/QueryBuilder";
+import {QueryBuilder} from "../../builder/QueryBuilder";
 import { TImageFiles } from "../../interface/image.interface";
 import { UserSearchableFields } from "./user.constant";
 import { TUser } from "./user.interface";

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cloudinaryUpload } from '../config/cloudinary.config';
-import { TImageFiles } from '../interfaces/image.interface';
+import { TImageFiles } from '../interface/image.interface';
 
 export const deleteImageFromCloudinary = (files: TImageFiles) => {
   const publicIds: string[] = [];

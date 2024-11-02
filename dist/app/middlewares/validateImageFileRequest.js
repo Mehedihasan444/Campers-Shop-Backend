@@ -12,25 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateRequestCookies = void 0;
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
-const validateRequest = (schema) => {
+const validateImageFileRequest = (schema) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedBody = yield schema.parseAsync({
-            body: req.body,
+        const parsedFile = yield schema.parseAsync({
+            files: req.files,
         });
-        req.body = parsedBody.body;
+        req.files = parsedFile.files;
         next();
     }));
 };
-const validateRequestCookies = (schema) => {
-    return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const parsedCookies = yield schema.parseAsync({
-            cookies: req.cookies,
-        });
-        req.cookies = parsedCookies.cookies;
-        next();
-    }));
-};
-exports.validateRequestCookies = validateRequestCookies;
-exports.default = validateRequest;
+exports.default = validateImageFileRequest;

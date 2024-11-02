@@ -11,5 +11,5 @@ export type TLoginUser = {
     email: string;
     mobileNumber?: string;
     password: string;
-    role: "ADMIN"|"USER";
+    role: "ADMIN"|"BUYER"|"SELLER";
   };

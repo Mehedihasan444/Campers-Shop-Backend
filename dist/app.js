@@ -20,14 +20,24 @@ const routes_1 = __importDefault(require("./app/routes"));
 const config_1 = __importDefault(require("./app/config"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
+const http_status_1 = __importDefault(require("http-status"));
+// Create a new instance of Stripe with your secret key
 const stripe = new stripe_1.default(config_1.default.stripe_secret_key, {
     apiVersion: "2024-06-20",
 });
 const app = (0, express_1.default)();
 //parsers
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)({ origin: ["http://localhost:5173", "https://campers-shop-frontend.vercel.app"] }));
+app.use((0, cors_1.default)({
+    credentials: true,
+    // origin: [
+    //   "http://localhost:5173",
+    //   "https://campers-shop-frontend.vercel.app",
+    // ],
+    origin: "https://campers-shop-frontend.vercel.app",
+}));
 // application routes
 app.use("/api/v1", routes_1.default);
 // Create payment intent endpoint
@@ -42,7 +52,9 @@ app.post("/create-payment-intent", (req, res, next) => __awaiter(void 0, void 0,
         const amount = products.reduce((total, item) => total + item.price * item.quantity, 0);
         // Validate amount
         if (isNaN(amount) || amount <= 0) {
-            return res.status(400).send({ error: "Invalid amount calculated from products" });
+            return res
+                .status(400)
+                .send({ error: "Invalid amount calculated from products" });
         }
         // Create PaymentIntent
         const paymentIntent = yield stripe.paymentIntents.create({
@@ -63,6 +75,13 @@ app.post("/create-payment-intent", (req, res, next) => __awaiter(void 0, void 0,
 }));
 app.get("/", (req, res) => {
     res.send("Campers shop is running");
+});
+//Testing
+app.get("/", (req, res) => {
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        message: "Welcome to the Campers shop API",
+    });
 });
 app.use(globalErrorHandler_1.default);
 // Not Found
