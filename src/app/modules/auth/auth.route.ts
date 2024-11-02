@@ -28,7 +28,7 @@ router.post(
 
 router.post(
   "/reset-password",
-  auth(USER_ROLE.USER, USER_ROLE.ADMIN),
+  auth(USER_ROLE.BUYER, USER_ROLE.ADMIN,USER_ROLE.SELLER),
   validateRequest(AuthValidation.resetPasswordValidationSchema),
   AuthControllers.resetPassword
 );
