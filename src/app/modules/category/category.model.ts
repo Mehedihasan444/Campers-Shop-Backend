@@ -13,6 +13,6 @@ const categorySchema = new Schema<TCategory>(
   }
 );
 
-const Category = model<TCategory>("Category", categorySchema);
+export const Category = model<TCategory>("Category", categorySchema);
 
-export { Category, TCategory };
+

@@ -33,4 +33,4 @@ router.delete(
   CategoryControllers.deleteACategory
 );
 
-export default router;
+export  const categoryRoutes=router;
