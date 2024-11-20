@@ -47,32 +47,36 @@ const updateBecomeSellerRequest = async (
   user: JwtPayload
 ) => {
   const session = await mongoose.startSession();
+  session.startTransaction();
   try {
     let result;
+    const isExist = await BecomeSellerRequest.findById(requestId);
+    if (!isExist) {
+      throw new AppError(httpStatus.NOT_FOUND, "Request not found");
+    }
     if (becomeSellerRequest.status === "APPROVED") {
       result = await BecomeSellerRequest.findByIdAndUpdate(
         requestId,
         {
           $set: {
             status: becomeSellerRequest.status,
-            rejectionReason: becomeSellerRequest.rejectionReason,
           },
         },
-        { new: true }
+        { new: true, session: session }
       );
       const getUser = await User.findOne({ email: user.email });
+ 
       if (!getUser) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
       }
       const StoreData = {
-        name: becomeSellerRequest.name + "'s Store",
+        name: isExist.name + "'s Store",
         owner: getUser?._id,
-        location: becomeSellerRequest.address,
-        description: "This is the store of " + becomeSellerRequest.name,
+        location: isExist.address,
+        description: "This is the store of " + isExist.name,
       };
-
       await Store.create([StoreData], { session: session });
-
+ 
       await User.findByIdAndUpdate(
         user?._id,
         { $set: { role: USER_ROLE.SELLER } },
@@ -80,7 +84,6 @@ const updateBecomeSellerRequest = async (
       );
 
       await session.commitTransaction();
-      await session.endSession();
     } else if (becomeSellerRequest.status === "REJECTED") {
       result = await BecomeSellerRequest.findByIdAndUpdate(
         requestId,
@@ -96,8 +99,10 @@ const updateBecomeSellerRequest = async (
     return result;
   } catch (error) {
     await session.abortTransaction();
-    await session.endSession();
+
     throw new Error((error as Error).message);
+  } finally {
+    await session.endSession();
   }
 };
 
