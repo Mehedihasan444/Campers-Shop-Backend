@@ -17,12 +17,13 @@ router.post(
   validateRequest(UserValidation.createUserValidationSchema),
   UserControllers.userRegister
 );
-router.get("/", UserControllers.getAllUsers);
+router.get("/", auth(USER_ROLE.ADMIN), UserControllers.getAllUsers);
 router.put(
   "/update-profile-photo",
   multerUpload.fields([{ name: "image" }]),
   parseBody,
   UserControllers.updateProfilePhoto
 );
+router.put("/:id", auth(USER_ROLE.ADMIN), UserControllers.updateUser);
 router.get("/:id", UserControllers.getSingleUser);
 router.delete("/:id", auth(USER_ROLE.ADMIN), UserControllers.deleteUser);

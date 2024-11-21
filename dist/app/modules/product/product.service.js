@@ -11,24 +11,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
 const QueryBuilder_1 = require("../../builder/QueryBuilder");
+const product_constant_1 = require("./product.constant");
 const product_model_1 = require("./product.model");
 const createProduct = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.Product.create(payload);
     return result;
 });
 // get all Product from the database
-const getAllProducts = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProducts = (query) => __awaiter(void 0, void 0, void 0, function* () {
     // Create a new QueryBuilder instance for the product query
-    const productQuery = new QueryBuilder_1.QueryBuilder(product_model_1.Product.find({}), payload)
-        .search(["name", "description", "category"])
-        .filter()
+    const productQuery = new QueryBuilder_1.QueryBuilder(product_model_1.Product.find(), query)
+        .search(product_constant_1.productSearchableFields)
         .sort()
+        .fields()
+        .filter()
         .paginate();
     // Execute the query to get the paginated results
     const result = yield productQuery.modelQuery;
     // Create a separate query to count the total number of products matching the filter criteria
-    const countQuery = new QueryBuilder_1.QueryBuilder(product_model_1.Product.find({}), payload)
-        .search(["name", "description", "category"])
+    const countQuery = new QueryBuilder_1.QueryBuilder(product_model_1.Product.find(), query)
+        .search(product_constant_1.productSearchableFields)
         .filter();
     // Execute the count query to get the total count
     const totalCount = yield countQuery.modelQuery.countDocuments();

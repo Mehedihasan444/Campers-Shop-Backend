@@ -61,6 +61,17 @@ const updateProfilePhoto = catchAsync(async (req, res) => {
     data: null,
   });
 });
+const updateUser = catchAsync(async (req, res) => {
+ 
+  const result = await UserServices.updateUser(req.params.id,req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User updated successfully",
+    data: result,
+  });
+});
 
 export const UserControllers = {
   getSingleUser,
@@ -68,4 +79,5 @@ export const UserControllers = {
   getAllUsers,
   deleteUser,
   updateProfilePhoto,
+  updateUser
 };
