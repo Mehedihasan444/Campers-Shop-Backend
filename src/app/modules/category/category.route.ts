@@ -24,6 +24,10 @@ router.post(
 );
 router.put(
   "/:id",
+  auth(USER_ROLE.ADMIN),
+  multerUpload.fields([{ name: "categoryImage" }]),
+  validateImageFileRequest(ImageFilesArrayZodSchema),
+  parseBody,
   validateRequest(categoryValidationSchema.updateCategorySchema),
   CategoryControllers.updateACategory
 );
@@ -33,4 +37,4 @@ router.delete(
   CategoryControllers.deleteACategory
 );
 
-export  const categoryRoutes=router;
+export const categoryRoutes = router;

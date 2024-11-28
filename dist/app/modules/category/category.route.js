@@ -18,6 +18,6 @@ const router = (0, express_1.Router)();
 router.get("/", category_controller_1.CategoryControllers.getAllCategory);
 router.get("/:id", category_controller_1.CategoryControllers.getACategory);
 router.post("/", (0, auth_1.default)(user_constant_1.USER_ROLE.ADMIN), multer_config_1.multerUpload.fields([{ name: "categoryImage" }]), (0, validateImageFileRequest_1.default)(image_validation_1.ImageFilesArrayZodSchema), bodyParser_1.parseBody, (0, validateRequest_1.default)(category_validation_1.categoryValidationSchema.createCategorySchema), category_controller_1.CategoryControllers.createCategory);
-router.put("/:id", (0, validateRequest_1.default)(category_validation_1.categoryValidationSchema.updateCategorySchema), category_controller_1.CategoryControllers.updateACategory);
+router.put("/:id", (0, auth_1.default)(user_constant_1.USER_ROLE.ADMIN), multer_config_1.multerUpload.fields([{ name: "categoryImage" }]), (0, validateImageFileRequest_1.default)(image_validation_1.ImageFilesArrayZodSchema), bodyParser_1.parseBody, (0, validateRequest_1.default)(category_validation_1.categoryValidationSchema.updateCategorySchema), category_controller_1.CategoryControllers.updateACategory);
 router.delete("/:id", (0, auth_1.default)(user_constant_1.USER_ROLE.ADMIN), category_controller_1.CategoryControllers.deleteACategory);
 exports.categoryRoutes = router;

@@ -22,8 +22,22 @@ const ImageFileZodSchema = zod_1.z.object({
         .refine((size) => size <= MAX_UPLOAD_SIZE, 'File size must be less than 3MB'),
     filename: zod_1.z.string(),
 });
+// export const ImageFilesArrayZodSchema = z.object({
+//   files: z.record(z.string(), z.array(ImageFileZodSchema)).refine((files) => {
+//     return Object.keys(files).length > 0;
+//   }, 'Image is required').optional(),
+// });
 exports.ImageFilesArrayZodSchema = zod_1.z.object({
-    files: zod_1.z.record(zod_1.z.string(), zod_1.z.array(ImageFileZodSchema)).refine((files) => {
-        return Object.keys(files).length > 0;
-    }, 'Image is required'),
-});
+    files: zod_1.z.record(zod_1.z.string(), zod_1.z.array(ImageFileZodSchema).optional()).optional(),
+})
+    .refine((data) => {
+    // Check if `files` is provided and has at least one image
+    if (data === null || data === void 0 ? void 0 : data.files) {
+        const imageField = data.files['categoryImage'];
+        if (imageField && imageField.length > 0) {
+            return true; // Images are present
+        }
+    }
+    // If no images are provided, allow it as valid if updating without images
+    return true; // Images are optional for updates
+}, 'Image must be provided, or none for an update.');

@@ -1,22 +1,31 @@
-import { z } from 'zod';
+import { z } from "zod";
 
- const createCategorySchema = z.object({
-    name: z.string({
-        required_error: 'Name is required',
-    }).min(3).max(30),
-    image: z.string({
-        required_error: 'Image is required',
+const createCategorySchema = z.object({
+  body: z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+      })
+      .min(3)
+      .max(30),
+    description: z.string({
+      required_error: "Description is required",
     }),
+    // image: z.string({
+    //   required_error: "Image is required",
+    // }),
+  }),
 });
 
- const updateCategorySchema = z.object({
+const updateCategorySchema = z.object({
+  body: z.object({
     name: z.string().optional(),
     image: z.string().optional(),
-    productCount: z.number().optional(),
-    isDeleted: z.boolean().optional(),
+    description: z.string().optional(),
+  }),
 });
 
 export const categoryValidationSchema = {
-    createCategorySchema,
-    updateCategorySchema
-}
+  createCategorySchema,
+  updateCategorySchema,
+};

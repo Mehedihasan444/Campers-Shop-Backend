@@ -19,18 +19,22 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const category_service_1 = require("./category.service");
 // create Category in the database
 const createCategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const CategoryImage = req.files;
     const CategoryData = req.body;
+    req.body.image = Array.isArray(CategoryImage)
+        ? CategoryImage[0].path
+        : CategoryImage === null || CategoryImage === void 0 ? void 0 : CategoryImage.categoryImage[0].path;
     const result = yield category_service_1.CategoryServices.createCategory(CategoryData);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: "Category created successfully",
-        data: result
+        data: result,
     });
 }));
 //get all Category
 const getAllCategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield category_service_1.CategoryServices.getAllCategory(req.params);
+    const result = yield category_service_1.CategoryServices.getAllCategory(req.query);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -50,6 +54,10 @@ const getACategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 }));
 //update a Category
 const updateACategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if (req.files) {
+        req.body.image = Array.isArray(req.files) ? req.files[0].path : (_a = req.files) === null || _a === void 0 ? void 0 : _a.categoryImage[0].path;
+    }
     const CategoryId = req.params.id;
     const updateData = req.body;
     const result = yield category_service_1.CategoryServices.updateACategory(CategoryId, updateData);
@@ -76,5 +84,5 @@ exports.CategoryControllers = {
     getAllCategory,
     getACategory,
     deleteACategory,
-    updateACategory
+    updateACategory,
 };
