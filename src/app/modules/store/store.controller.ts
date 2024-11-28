@@ -30,7 +30,8 @@ const createStore: RequestHandler = catchAsync(async (req, res) => {
   });
 
   const getStoresFromDB: RequestHandler = catchAsync(async (req, res) => {
-    const result = await storeServices.getStoresFromDB();
+
+    const result = await storeServices.getStoresFromDB(req.query);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,

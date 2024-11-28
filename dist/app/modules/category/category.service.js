@@ -22,16 +22,16 @@ const createCategory = (payload) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const getAllCategory = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    // Create a new QueryBuilder instance for the product query
-    const productQuery = new QueryBuilder_1.QueryBuilder(category_model_1.Category.find(), query)
+    // Create a new QueryBuilder instance for the store query
+    const storeQuery = new QueryBuilder_1.QueryBuilder(category_model_1.Category.find(), query)
         .search(["name"])
         .sort()
         .fields()
         .filter()
         .paginate();
     // Execute the query to get the paginated results
-    const result = yield productQuery.modelQuery;
-    // Create a separate query to count the total number of products matching the filter criteria
+    const result = yield storeQuery.modelQuery;
+    // Create a separate query to count the total number of stores matching the filter criteria
     const countQuery = new QueryBuilder_1.QueryBuilder(category_model_1.Category.find(), query)
         .search(["name"])
         .filter();

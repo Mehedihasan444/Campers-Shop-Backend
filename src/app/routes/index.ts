@@ -5,7 +5,7 @@ import { OrderRoutes } from "../modules/order/order.route";
 import { ReviewRoutes } from "../modules/review/review.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { UserRoutes } from "../modules/User/user.route";
-import { storeRoutes } from "../modules/shop/store.route";
+import { storeRoutes } from "../modules/store/store.route";
 import { categoryRoutes } from "../modules/category/category.route";
 import { becomeSellerRequestRoutes } from "../modules/becomeSellerRequest/becomeSellerRequest.route";
 

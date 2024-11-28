@@ -4,7 +4,7 @@ import {
   TBecomeSellerRequest,
 } from "./becomeSellerRequest.interface";
 import { BecomeSellerRequest } from "./becomeSellerRequest.model";
-import { Store } from "../shop/store.model";
+import { Store } from "../store/store.model";
 import { USER_ROLE } from "../User/user.constant";
 import mongoose, { Error } from "mongoose";
 import AppError from "../../errors/AppError";

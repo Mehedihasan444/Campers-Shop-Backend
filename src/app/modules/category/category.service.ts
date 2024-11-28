@@ -10,8 +10,8 @@ const createCategory = async (payload: TCategory) => {
 };
 
 const getAllCategory = async (query: Record<string, unknown>) => {
-  // Create a new QueryBuilder instance for the product query
-  const productQuery = new QueryBuilder(Category.find(), query)
+  // Create a new QueryBuilder instance for the store query
+  const storeQuery = new QueryBuilder(Category.find(), query)
     .search(["name"])
     .sort()
     .fields()
@@ -19,9 +19,9 @@ const getAllCategory = async (query: Record<string, unknown>) => {
     .paginate();
 
   // Execute the query to get the paginated results
-  const result = await productQuery.modelQuery;
+  const result = await storeQuery.modelQuery;
 
-  // Create a separate query to count the total number of products matching the filter criteria
+  // Create a separate query to count the total number of stores matching the filter criteria
   const countQuery = new QueryBuilder(Category.find(), query)
     .search(["name"])
     .filter();
