@@ -12,4 +12,4 @@ router.post("/",auth(USER_ROLE.ADMIN,), validateRequest(storeValidationSchema.cr
 router.put("/:id",auth(USER_ROLE.SELLER),validateRequest(storeValidationSchema.updateStoreValidationSchema),StoreControllers.updateStore);
 router.delete("/:id",auth(USER_ROLE.ADMIN,),StoreControllers.deleteStoreFromDB);
 
-export const storeRoutes = router;
+export const StoreRoutes = router;

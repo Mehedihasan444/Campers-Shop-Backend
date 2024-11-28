@@ -30,6 +30,7 @@ const createStore: RequestHandler = catchAsync(async (req, res) => {
   });
 
   const getStoresFromDB: RequestHandler = catchAsync(async (req, res) => {
+console.log(req.query)
 
     const result = await storeServices.getStoresFromDB(req.query);
   
